@@ -78,7 +78,7 @@ namespace DamasNamas.ViewModels
 
 
 		/// <summary>
-		/// 
+		/// Metodo para rellenar la lista con los jugadores con mas partidas ganadas en las damas
 		/// </summary>
 		private async void CargarJugadoresBuenisimos()
 		{

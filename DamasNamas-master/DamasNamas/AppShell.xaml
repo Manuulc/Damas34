@@ -26,7 +26,7 @@
     <TabBar Route="Main"
             FlyoutItemIsVisible="True">
 
-        <Tab Title="Rooms" Icon="key">
+        <Tab Title="Salas" Icon="key">
             <ShellContent
                 Route="TipoJuego"
                 ContentTemplate="{DataTemplate local:EleccionModoJuegoPage}"/>
