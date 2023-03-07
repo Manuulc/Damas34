@@ -122,7 +122,7 @@ namespace DamasNamas.ViewModels
 				if (!name.Equals("Cancel"))
 				{
 					pass = await Shell.Current.DisplayPromptAsync("Identificate de la forma más segura", ("contraseña"), "Ok", "cancel");
-					if (pass != "Cancel")
+					if (!pass.Equals("Cancel"))
 					{
 						jugadorAbajo = await LoginVM.TestSignUp(name, pass);
 					}

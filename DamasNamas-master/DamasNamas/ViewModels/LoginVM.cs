@@ -196,7 +196,7 @@ namespace DamasNamas.ViewModels
 			{
 				ObservableCollection<clsJugador> jugadores = await clsListadoJugadoresBL.getJugadoresBL();
 
-				for (int i = 0; i < jugadores.Count; i++)
+				for (int i = 0; i < jugadores.Count && !existe; i++)
 				{
 					if (jugadores[i].nombre.ToUpper().Equals(Username.ToUpper()))
 					{
