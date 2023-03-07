@@ -28,7 +28,7 @@
 
         <Frame
             AbsoluteLayout.LayoutBounds="70,220,250,460"
-            Opacity=".85"
+            Opacity="0.80"
             BackgroundColor="Black"
             BorderColor="DarkSlateBlue"
                  HeightRequest="{OnPlatform Android=500}"
