@@ -221,6 +221,7 @@ namespace DamasNamas.ViewModels
 					{
 
 						clsGestionJugadoresBL.insertarJugadorBL(jugadorRegistrado);
+					
 						jugador = jugadorRegistrado;
 
 					}

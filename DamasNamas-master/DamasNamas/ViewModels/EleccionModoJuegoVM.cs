@@ -128,7 +128,18 @@ namespace DamasNamas.ViewModels
 					pass = await Shell.Current.DisplayPromptAsync("Identificate de la forma más segura", ("contraseña"), "Ok", "cancel");
 					if (!pass.Equals("Cancel"))
 					{
+						var lista = await clsListadoJugadoresBL.getJugadoresBL();
 						jugadorAbajo = await LoginVM.TestSignUp(name, pass);
+
+						var encontrado = false;
+						for (var i= 0;i < lista.Count() && !encontrado;i++)
+						{
+							if(lista.ElementAt(i).nombre.Equals(jugadorAbajo.nombre) && lista.ElementAt(i).password.Equals(jugadorAbajo.password))
+							{
+								jugadorAbajo = lista.ElementAt(i);
+								encontrado = true;
+							}
+						}
 					}
 					else
 					{
