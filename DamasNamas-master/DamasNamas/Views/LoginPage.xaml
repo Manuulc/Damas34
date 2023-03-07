@@ -4,93 +4,136 @@
              x:Class="DamasNamas.Views.LoginPage"
              xmlns:vm="clr-namespace:DamasNamas.ViewModels"
              Title="LoginPage"
-             BackgroundImageSource="fondomadera.jpg">
+             BackgroundImageSource="fondologin.jpg"
+             >
     <ContentPage.BindingContext>
         <vm:LoginVM/>
     </ContentPage.BindingContext>
 
 
-    <VerticalStackLayout
-        VerticalOptions="Center">
-        <Label
-            Text="DAMas"
-            
+    <AbsoluteLayout
+        Margin="0,0,0,0"
+        VerticalOptions="Start">
+       
+            <Label
+                AbsoluteLayout.LayoutBounds="150,18,350,200"
+            FontSize="45"
+            TextColor="Black"
+            Text="Star
+                DAMas"
+            FontFamily="Starjedi"
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
+
+
         <Frame
+            AbsoluteLayout.LayoutBounds="70,220,250,460"
+            Opacity=".85"
+            BackgroundColor="Black"
+            BorderColor="DarkSlateBlue"
                  HeightRequest="{OnPlatform Android=500}"
                  WidthRequest="{OnPlatform Android=350}">
-            <Grid
+            
+        </Frame>
+        <Grid
+            AbsoluteLayout.LayoutBounds="70,220,250,460"
                     ColumnDefinitions="*,*"
                     RowDefinitions="*,*,*"
                     ColumnSpacing="5"
                     RowSpacing="0"
                     Padding="40,30,40,0">
-                <Frame 
-                        CornerRadius="50"
-                        WidthRequest="100"
+            <Frame 
+                        CornerRadius="60"
+                        HorizontalOptions="Center"
+                        WidthRequest="110"
                         BorderColor="AliceBlue"
-                         HeightRequest="100"     
+                         HeightRequest="110"     
                          Grid.ColumnSpan="3">
-                    <Image 
-                            Source="principal" 
+                <Image 
+                                Opacity="1"
+                            Source="mandaloriano" 
                             WidthRequest="{OnPlatform Android=90}"
                             HeightRequest="{OnPlatform Android=90}"
-                            Grid.RowSpan="3"
-                            Grid.Row="0" />
+                        Margin="15,20,20,10"
+                        VerticalOptions="Center"/>
+            </Frame>
+
+
+            <VerticalStackLayout
+                        Grid.ColumnSpan="2"
+                        Grid.RowSpan="2" 
+                        Grid.Row="0"
+                Spacing="12"
+                        VerticalOptions="End">
+                <Frame
+                    CornerRadius="40"
+                    WidthRequest="220"
+                    HeightRequest="45"
+                    BackgroundColor="Transparent"
+                    BorderColor="Gray">
+                    <Entry
+                    
+                    TextColor="White"
+                    HeightRequest="{OnPlatform Android=45}"
+                    Placeholder="Username"
+                    Text="{Binding Username}"/>
                 </Frame>
 
-
-                <VerticalStackLayout
-                        Grid.ColumnSpan="2"
-                        Grid.RowSpan="2"            
-                        VerticalOptions="End">
-
+                <Frame
+                    CornerRadius="40"
+                    WidthRequest="220"
+                    HeightRequest="45"
+                    BackgroundColor="Transparent"
+                    BorderColor="Gray">
                     <Entry
-                            Text="{Binding Username}"
-                            VerticalOptions="End"
-                            Placeholder="Username"
-                            HeightRequest="{OnPlatform Android=45}"
-                            Margin="0,0,0,15"/>
+                    
+                    TextColor="White"
+                    HeightRequest="{OnPlatform Android=45}"
+                    Placeholder="Password"
+                    Text="{Binding Password}"
+                    IsPassword="True"/>
+                </Frame>
+                
 
-                    <Entry
-                            HeightRequest="{OnPlatform Android=45}"
-                            Placeholder="Password"
-                            Text="{Binding Password}"
-                            IsPassword="True"/>
-
-                </VerticalStackLayout>
+            </VerticalStackLayout>
 
 
-                <HorizontalStackLayout
-                        Grid.Row="3"
+            <HorizontalStackLayout
+                        Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Margin="0,0,0,0"
-                        Spacing="50"
-                        HorizontalOptions="Center">
+                        Margin="-15,0,0,0"
+                        Spacing="60">
 
-                    <Button
-                            Command="{Binding ComandoLogin}"
-                            Text="Log in"
-                            IsEnabled="{Binding IsBusy}"
-                            BackgroundColor="RoyalBlue"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"/>
-
-                    <Button
-                            Command="{Binding ComandoSignup}"
+                <Button
+                        FontFamily="Starjedi"
+                        TextColor="Black"
+                        BackgroundColor="White"
+                        
+                        Command="{Binding ComandoLogin}"
+                        Text="Log in"
                         IsEnabled="{Binding IsBusy}"
+                        BorderColor="Red"
+                        BorderWidth="3"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"/>
+
+                <Button
+                        FontFamily="Starjedi"
+                        TextColor="Black"
+                        BackgroundColor="White"
+                        BorderColor="#0f3e8d"
+                        BorderWidth="3"
+                            Command="{Binding ComandoSignup}"
+                            IsEnabled="{Binding IsBusy}"
                             Text="Sign up"
-                            BackgroundColor="RoyalBlue"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"/>
 
-                </HorizontalStackLayout>
+            </HorizontalStackLayout>
 
 
-            </Grid>
-        </Frame>
+        </Grid>
 
-    </VerticalStackLayout>
+    </AbsoluteLayout>
 
 </ContentPage>

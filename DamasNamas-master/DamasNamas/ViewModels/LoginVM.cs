@@ -65,20 +65,21 @@ namespace DamasNamas.ViewModels
 		#region Comandos
 
 		/// <summary>
-		/// Metodo que se acciona al pulsar el boton de Log in, cuando se pulse, navegaremos hacia la siguiente pagina
+		/// Metodo que se acciona al pulsar el boton de Log in, comprobara si podemos logearnos en la aplicacion, en caso de logearnos, navegaremos hacia la
+		/// siguiente pagina, en caso contrario, aparecera un mensaje diciendo que el usuario no esta registrado.
 		/// </summary>
 		private async void ComandoLogin_Execute()
 		{
 
-			if (await TestLogin())
+			if ((Jugador = await TestLogin(Username, Password)) != null)
 			{
 
-				GoTo();
+				GoTo(Jugador);
 
 			}
 			else
 			{
-				await App.Current.MainPage.DisplayAlert("Usuario no registrado", "Lo siento, ese usuario no esta registrado", "Ok");
+				await App.Current.MainPage.DisplayAlert("Jugador no registrado", "Lo siento, ese jugador no esta registrado", "Ok");
 
 			}
 
@@ -88,11 +89,13 @@ namespace DamasNamas.ViewModels
 
 
 
-
-		private async void GoTo()
+		/// <summary>
+		/// Metodo que se acciona al comprobar que si podemos iniciar sesion. Navegamos hacia la siguiente pagina mandando el jugador logeado
+		/// </summary>
+		private async void GoTo(clsJugador jugadorAMandar)
 		{
 			var dict = new Dictionary<string, object>();
-			dict.Add("JugadorQueMando", Jugador);
+			dict.Add("JugadorQueMando", jugadorAMandar);
 			await Shell.Current.GoToAsync("///Main", true, dict);
 		}
 
@@ -117,10 +120,10 @@ namespace DamasNamas.ViewModels
 		/// <summary>
 		/// Metodo que se acciona al pulsar el boton de Sign Up, cuando se pulse, navegaremos hacia la siguiente pagina
 		/// </summary>
-		private void ComandoSignup_Execute()
+		private async void ComandoSignup_Execute()
 		{
 
-			TestSignUp();
+			Jugador = await TestSignUp(Username, Password);
 
 		}
 
@@ -148,63 +151,89 @@ namespace DamasNamas.ViewModels
 
 		#region Utilities
 
-		private async Task<bool> TestLogin()
+		/// <summary>
+		/// Metodo que comprueba si podemos logearnos en la app o no. Obtenemos una lista completa de jugadores de la API, si el nombre y el usuario introducidos en los
+		/// entrys coinciden con el nombre y la contraseña de alguno de los usuarios, se logeara con exito en la aplicacion.
+		/// </summary>
+		/// <returns></returns>
+		public static async Task<clsJugador> TestLogin(String Username, String Password)
 		{
-
+			clsJugador JugadorALoggear = null;
 			bool logeadoConExito = false;
-			try{
-			ObservableCollection<clsJugador> jugadores = await clsListadoJugadoresBL.getJugadoresBL();
-
-			for (int i = 0; i < jugadores.Count && !logeadoConExito; i++)
+			try
 			{
-				if (jugadores[i].nombre.ToUpper().Equals(Username.ToUpper()) && jugadores[i].password.Equals(Password))
+				ObservableCollection<clsJugador> jugadores = await clsListadoJugadoresBL.getJugadoresBL();
+
+				for (int i = 0; i < jugadores.Count && !logeadoConExito; i++)
 				{
-					Jugador = jugadores[i];
-					logeadoConExito = true;
-					
+					if (jugadores[i].nombre.ToUpper().Equals(Username.ToUpper()) && jugadores[i].password.Equals(Password))
+					{
+						JugadorALoggear = jugadores[i];
+						logeadoConExito = true;
+
+					}
 				}
-			}
 			}
 			catch (Exception e)
 			{
-				await Shell.Current.DisplayAlert("Ha petao", "Yo no se porqué, busca porahi", "po vale");
+				await Shell.Current.DisplayAlert("ERROR", "Se ha producido un error al obtener jugadores de la API", "Po vale");
 			}
 
-			return logeadoConExito;
+			return JugadorALoggear;
 		}
 
-
-		private async void TestSignUp()
+		/// <summary>
+		/// Metodo que comprueba si podemos registrarnos en la app o no. Obtenemos una lista completa de los jugadores, si el nombre escrito en el entry
+		// coincide con alguno de los jugadores rescatados de la API, significa que existe y por lo tanto si existe aparecera un mensaje diciendonos que el jugador ya existe. 
+		// Si no existe, lo introducira en la API para registrarlo.
+		/// </summary>
+		public static async Task<clsJugador> TestSignUp(String Username, String Password)
 		{
+			clsJugador jugador = null;
 			bool existe = false;
 
-			ObservableCollection<clsJugador> jugadores = await clsListadoJugadoresBL.getJugadoresBL();
-
-			for (int i = 0; i < jugadores.Count; i++)
+			try
 			{
-				if (jugadores[i].nombre.ToUpper().Equals(Username.ToUpper()))
+				ObservableCollection<clsJugador> jugadores = await clsListadoJugadoresBL.getJugadoresBL();
+
+				for (int i = 0; i < jugadores.Count; i++)
 				{
-					existe = true;
+					if (jugadores[i].nombre.ToUpper().Equals(Username.ToUpper()))
+					{
+						existe = true;
+					}
 				}
-			}
 
-			if (existe)
+				if (existe)
+				{
+					await Shell.Current.DisplayAlert("Jugador ya existente", "Lo siento, ese jugador ya existe", "Ok");
+				}
+				else
+				{
+
+					clsJugador jugadorRegistrado = new clsJugador(Username, Password);
+
+					try
+					{
+
+						clsGestionJugadoresBL.insertarJugadorBL(jugadorRegistrado);
+						jugador = jugadorRegistrado;
+
+					}
+					catch (Exception e)
+					{
+						await Shell.Current.DisplayAlert("ERROR", "Se ha producido un error al insertar en la API", "Po vale");
+					}
+
+				}
+
+			}
+			catch (Exception e)
 			{
-				await Shell.Current.DisplayAlert("Usuario ya existente", "Lo siento, ese usuario ya existe", "Ok");
-			}
-			else
-			{
-				clsJugador jugadorRegistrado = new clsJugador(Username, Password);
-				clsGestionJugadoresBL.insertarJugadorBL(jugadorRegistrado);
-
-				var dict = new Dictionary<string, object>();
-				dict.Add("JugadorQueMando", jugadorRegistrado);
-
-
-				await Shell.Current.GoToAsync("///Main", true, dict);
+				await Shell.Current.DisplayAlert("ERROR", "Se ha producido un error al obtener jugadores de la API", "Po vale");
 			}
 
-
+			return jugador;
 		}
 		#endregion
 	}

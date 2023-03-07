@@ -28,11 +28,13 @@
 
         <Tab Title="Rooms" Icon="key">
             <ShellContent
-                Route="Rooms"
-                ContentTemplate="{DataTemplate local:RoomsPage}"/>
+                Route="TipoJuego"
+                ContentTemplate="{DataTemplate local:EleccionModoJuegoPage}"/>
         </Tab>
         <Tab Title="Puntuaciones" Icon="usuario">
-         
+            <!--<ShellContent
+                Route="TipoJuego"
+                ContentTemplate="{DataTemplate local:EleccionModoJuegoPage}"/>-->
         </Tab>
         
       

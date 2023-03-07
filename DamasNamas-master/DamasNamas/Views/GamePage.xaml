@@ -33,7 +33,8 @@
              x:Class="DamasNamas.Views.GamePage"
               xmlns:vm="clr-namespace:DamasNamas.ViewModels"
              Title="GamePage"
-             BackgroundImageSource="fondomadera.jpg">
+             
+             BackgroundImageSource="fondoestrellas.jpg">
     <ContentPage.BindingContext>
         <vm:GameVM/>
     </ContentPage.BindingContext>
@@ -53,6 +54,7 @@
                 HorizontalOptions="Center"/>
         </Frame>
         <Frame
+            BorderColor="Gold"
             Margin="5,10,5,5"
             CornerRadius="20"
             BackgroundColor="{Binding ColorTurnoArriba}">

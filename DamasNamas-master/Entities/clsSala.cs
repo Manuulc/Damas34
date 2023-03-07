@@ -47,10 +47,22 @@ namespace Entities
 
 		#region Constructors
 
+		public clsSala(int _jugadorArriba)
+		{
+			nombreSala = ""; 
+			jugadorArriba=_jugadorArriba;
+			jugadorAbajo=0;
+			tiempo="0";
+			cantidadFichasArriba=12;
+			cantidadFichasAbajo=12;
+			espacio = 0;
+		}
+
 		public clsSala()
 		{
-			nombreSala = "";
 		}
+
+
 
 
 		//Constructor para la recogida de salas de la base de datos
@@ -102,6 +114,7 @@ namespace Entities
 			cantidadFichasAbajo=12;
 			espacio = 1;
 		}
+
 
 
 		#endregion

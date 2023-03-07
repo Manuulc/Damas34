@@ -49,9 +49,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\Starjedi.ttf" />
+	  <None Remove="Resources\Fonts\Starjout.ttf" />
+	  <None Remove="Resources\Images\ctripio.png" />
+	  <None Remove="Resources\Images\destructor.png" />
+	  <None Remove="Resources\Images\fondoestrellas.jpg" />
+	  <None Remove="Resources\Images\fondologin.jpg" />
 	  <None Remove="Resources\Images\fondomadera.jpg" />
+	  <None Remove="Resources\Images\halcon.png" />
 	  <None Remove="Resources\Images\key.png" />
 	  <None Remove="Resources\Images\lightynone.png" />
+	  <None Remove="Resources\Images\luke.png" />
+	  <None Remove="Resources\Images\mandaloriano.png" />
 	  <None Remove="Resources\Images\piezablanca.png" />
 	  <None Remove="Resources\Images\piezanegra.png" />
 	  <None Remove="Resources\Images\principal.png" />
@@ -59,7 +68,9 @@
 	  <None Remove="Resources\Images\reinanegra.png" />
 	  <None Remove="Resources\Images\selected.png" />
 	  <None Remove="Resources\Images\shadynone.png" />
+	  <None Remove="Resources\Images\soldado.png" />
 	  <None Remove="Resources\Images\usuario.png" />
+	  <None Remove="Resources\Images\vader.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -75,10 +86,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\EleccionModoJuegoPage.xaml.cs">
+	    <DependentUpon>EleccionModoJuegoPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EleccionModoJuegoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Puntuaciones.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RoomsPage.xaml">

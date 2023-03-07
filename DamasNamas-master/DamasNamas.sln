@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{39337DDC-C476-4F0B-BA9A-2382177C8AAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DamasServer", "DamasServer\DamasServer.csproj", "{1CF4C32B-07D7-4203-8FCC-7E3A1B253B02}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +35,6 @@ Global
 		{39337DDC-C476-4F0B-BA9A-2382177C8AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39337DDC-C476-4F0B-BA9A-2382177C8AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39337DDC-C476-4F0B-BA9A-2382177C8AAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CF4C32B-07D7-4203-8FCC-7E3A1B253B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CF4C32B-07D7-4203-8FCC-7E3A1B253B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CF4C32B-07D7-4203-8FCC-7E3A1B253B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CF4C32B-07D7-4203-8FCC-7E3A1B253B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,13 +13,12 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace DamasNamas.ViewModels
 {
-	[QueryProperty(nameof(esOnline), "EsOnline")]
+	
 	[QueryProperty(nameof(sala), "SalaEnviada")]
 	partial class GameVM : VMBase
 	{
 		#region Atributes
 
-		bool esOnline;
 		clsGameTablero tablero;
 		clsSala _sala;
 		String nombreJugadorArriba;
@@ -33,24 +32,11 @@ namespace DamasNamas.ViewModels
 		String relojMostrado;
 		TimeSpan reloj;
 
-		HubConnection hubConnection;
-
 		#endregion
 
 		#region Properties
 
-		public bool EsOnline
-		{
-			get
-			{
-				return esOnline;
-			}
-			set
-			{
-				esOnline = value;
-				OnPropertyChanged(nameof(EsOnline));
-			}
-		}
+
 		public ObservableCollection<Square> HuecosTablero
 		{
 			get
@@ -104,17 +90,7 @@ namespace DamasNamas.ViewModels
 
 			}
 		}
-        public HubConnection HubConnection
-		{
-            get
-            {
-                return hubConnection;
-            }
-            set
-            {
-				hubConnection = value;
-            }
-        }
+
         #endregion
 
 
@@ -263,7 +239,7 @@ namespace DamasNamas.ViewModels
 		public GameVM()
 		{
 
-
+			timer = Shell.Current.Dispatcher.CreateTimer();
 			ColorTurnoArriba = Colors.LightGreen;
 			ColorTurnoAbajo = Colors.LightGray;
 			PosiblesComidas = new List<Square>();
@@ -275,33 +251,18 @@ namespace DamasNamas.ViewModels
 		}
 
 
-		//Método que se encargue de mover la pieza
-		//Debe comprobar que el hueco seleccionado es válido(tiene una pieza y es del color del jugador que está moviendo)
-		//Debe comprobar si (Posx+1 & Psy+1) & (Posx+1 & PosY-1) están vacías
-		//Si están vacías debe preguntarse al jugador a cual de las dos casillas quiere mover
-		//Si no están vacías debe comprobarse si la pieza que hay en la casilla es del color contrario
-		//Si es del color contrario debe comprobarse si (Posx+2 & Psy+2) & (Posx+2 & PosY-2) están vacías
-		//Si una de ellas está vacía debe preguntarse al jugador si desea comer la pieza y moverse a esa casilla
-		//Si está ocupada por una pieza del mismo color no se debe mostrar como opción
-		//Si (Posx+1 & Psy+1) está ocupada por una pieza contraria pero (Posx+2 & Psy+2) está ocupada por cualquier pieza, no se debe mostrar como opción
+
 
 
 
 		public async void BeginMatch()
 		{
-			if(esOnline)
-			{
-				while (JugadorAbajo.idJugador == 0 && JugadorAbajo.nombre.Equals("Test"))
-				{
-					await Shell.Current.DisplayAlert("","Esperando al otro jugador", "ok");
-				}
-			}
-			else
-			{
+			
+		
 				Tablero.Tiempo = 0;
 				Estado = EstadosJuego.TurnoBlancas;
 				await PutTiempo();
-			}
+			
 		}
 
 		//public void EndMatch()
@@ -325,7 +286,7 @@ namespace DamasNamas.ViewModels
 				Estado = EstadosJuego.TurnoBlancas;
 		}
 
-
+		IDispatcherTimer timer;
 		/// <summary>
 		/// Método que se encarga de establecer lo que se hará tras cada tick del Timer.
 		/// 
@@ -340,7 +301,7 @@ namespace DamasNamas.ViewModels
 				if (!(Estado.Equals(EstadosJuego.BlancoGana) || Estado.Equals(EstadosJuego.NegroGana)))
 				{
 					//Iniciamos el Timer y le damos un intervalo de un segundo 
-					var timer = Application.Current.Dispatcher.CreateTimer();
+					
 					timer.Interval = TimeSpan.FromMilliseconds(1000);
 					//Le decimos al timer que con cada tick(cada 1000 milis) 
 					//deberá cambiar el string del reloj 
@@ -729,11 +690,12 @@ namespace DamasNamas.ViewModels
 			if (Tablero.PiezasBlancas == 0)
 			{
 				Estado = EstadosJuego.NegroGana;
+				comprobarGanador();
 			}
 			else if (Tablero.PiezasNegras == 0)
 			{
 				Estado = EstadosJuego.BlancoGana;
-
+				comprobarGanador();
 			}
 			else if (Estado.Equals(EstadosJuego.TurnoBlancas))
 			{
@@ -747,9 +709,37 @@ namespace DamasNamas.ViewModels
 				ColorTurnoArriba = Colors.LightGreen;
 				ColorTurnoAbajo = Colors.LightGray;
 			}
+
+			
 		}
 
+		/// <summary>
+		/// Método que comprueba que jugador ha ganado, para el temporizador y actualiza la sala (partida)
+		/// <pre>ninguna</pre>
+		/// <post>ninguna</post>
+		/// </summary>
+		private async void comprobarGanador(){
+			sala.cantidadFichasAbajo = Tablero.PiezasNegras;
+			sala.cantidadFichasArriba = Tablero.PiezasBlancas;
+			sala.tiempo = RelojMostrado;
 
+			string nombreGanador = (Estado.Equals(EstadosJuego.NegroGana)) ? jugadorAbajo.nombre : jugadorArriba.nombre; // detallitos programiles
+			
+			if(Estado.Equals(EstadosJuego.NegroGana) || Estado.Equals(EstadosJuego.BlancoGana)){
+
+				await Shell.Current.DisplayAlert("Ganador", nombreGanador + " has ganado", "Ok");
+
+				timer.Stop();
+
+				try{
+					clsGestionSalasBL.insertarSalaBL(sala);
+				}catch(Exception e){
+					await Shell.Current.DisplayAlert("ERROR", "Se ha producido un error al actualizar la sala.", "Po vale");
+				}
+
+				
+			}
+		}
 
 
 		private Square HuecoAnterior { get; set; }
@@ -857,7 +847,7 @@ namespace DamasNamas.ViewModels
 
 			} else if (difY > 0 && difX < 0)
 			{
-				huecoAComer = HuecosTablero.Where(x => x.PosX == (HuecoSeleccinado.PosX + 1) && x.PosY == (HuecoSeleccinado.PosY - 1)).First();
+				huecoAComer = HuecosTablero.Where(x => x.PosX == (HuecoSeleccinado.PosX - 1) && x.PosY == (HuecoSeleccinado.PosY + 1)).First();
 			}
 			else if (difY < 0 && difX > 0)
 			{
@@ -1017,37 +1007,7 @@ namespace DamasNamas.ViewModels
 		#region signalR
 
 
-		public void conectar()
-		{
-			var UrlBase = "http://localhost";
-			hubConnection = new HubConnectionBuilder().WithUrl($"{UrlBase}:5168/DamasHub").Build();
-
-            //hubConnection.On < Square huecoPartida, Square huecoAComer, Square huecoDestino, EstadosJuego estadoPartida > ("RecibirMovimiento", (user, message) =>
-            //{
-            //	//lblChat.Text += $"<b>{user}</b>: {message}<br/>";
-            //	//lo que vamos a recibir y donde va
-            //});
-            //Iniciamos el hub en el hilo principalpara no bloquear la interfaz
-            //Task.Run(() =>
-            //{
-            //    Dispatcher.Dispatch(async () =>
-            //    {
-            //        await hubConnection.StartAsync();
-            //    });
-            //});
-        }
-
-		public async void enviar()
-		{
-			//await HubConnection.InvokeCoreAsync("MandarMovimiento", args: new[]
-			//{
-			//	HuecoAnterior,
-			//	HuecoAComer,
-			//	HuecoSeleccionado,
-			//	Estado
-			//});
-		}
-
+	
 
 
 		#endregion
