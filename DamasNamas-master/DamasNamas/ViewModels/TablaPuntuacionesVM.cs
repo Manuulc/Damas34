@@ -77,6 +77,9 @@ namespace DamasNamas.ViewModels
 		#endregion
 
 
+		/// <summary>
+		/// 
+		/// </summary>
 		private async void CargarJugadoresBuenisimos()
 		{
 
@@ -88,7 +91,9 @@ namespace DamasNamas.ViewModels
 
 				foreach (var player in listaJugadores)
 				{
+					
 					jugadoresBuenisimos.Add((clsJugadorConPartidas)player);
+					var listaPartidas = new List<clsSala>();
 					for (int i = 0; i<listaSalas.Count(); i++)
 					{
 						var cantidadFichasArriba = listaSalas.ElementAt(i).cantidadFichasArriba;
@@ -96,15 +101,13 @@ namespace DamasNamas.ViewModels
 						var jugadorArribaSala = listaSalas.ElementAt(i).jugadorArriba;
 						var jugadorAbajoSala = listaSalas.ElementAt(i).jugadorAbajo;
 
-
-						if ((player.idJugador ==  jugadorArribaSala &&  cantidadFichasArriba > cantidadFichasAbajo)|| (player.idJugador == jugadorAbajoSala && cantidadFichasAbajo > cantidadFichasArriba))
+						if(jugadorArribaSala== player.idJugador || jugadorAbajoSala == player.idJugador)
 						{
-
-							
-
-
+							listaPartidas.Add(listaSalas.ElementAt(i));
 						}
+						
 					}
+					var jugador = new clsJugadorConPartidas(player.nombre, player.password, listaPartidas);
 
 				}
 

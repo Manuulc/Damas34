@@ -222,7 +222,7 @@ namespace DamasNamas.ViewModels
 			NombreJugadorArriba = jugadorArriba.nombre;
 			if (NombreJugadorAbajo.Equals("Test"))
 			{
-				NombreJugadorAbajo = ("");
+				NombreJugadorAbajo = ("Invitado");
 			}
 
 		}
