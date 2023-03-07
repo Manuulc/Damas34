@@ -79,7 +79,7 @@ namespace DamasNamas.ViewModels
 			}
 			else
 			{
-				await App.Current.MainPage.DisplayAlert("Jugador no registrado", "Lo siento, ese jugador no esta registrado", "Ok");
+				await App.Current.MainPage.DisplayAlert("Imposible loggear", "Usuario o contraseña incorrectos", "Ok");
 
 			}
 
@@ -172,6 +172,10 @@ namespace DamasNamas.ViewModels
 						logeadoConExito = true;
 
 					}
+				}
+				if (!logeadoConExito)
+				{
+					await Shell.Current.DisplayAlert("Error", "Usuario o contraseña incorrectos", "Ok");
 				}
 			}
 			catch (Exception e)

@@ -98,6 +98,10 @@ namespace DamasNamas.ViewModels
 						{
 							sala.jugadorAbajo = jugadorAbajo.idJugador;
 						}
+						else
+						{
+							return;
+						}
 						//Añadimos la sala que se enviará a la página del juego
 						dic.Add("SalaEnviada", sala);
 					}
