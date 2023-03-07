@@ -11,14 +11,36 @@ namespace DamasNamas.Models
 	{
 		public List<clsSala> partidas { get; set; }
 
+		public int partidasGanadas { get; set; }
 
-
+		public clsJugadorConPartidas(String nombre, String password, List<clsSala> partidasJugadas, int _partidasGanadas)
+		{
+			base.idJugador = idJugador;
+			base.nombre=nombre;
+			base.password=password;
+			partidas=partidasJugadas;
+			partidasGanadas = _partidasGanadas;
+		}
 		public clsJugadorConPartidas(String nombre, String password, List<clsSala> partidasJugadas)
 		{
 			base.idJugador = idJugador;
 			base.nombre=nombre;
 			base.password=password;
 			partidas=partidasJugadas;
+			partidasGanadas = 0;
+			comprobarPartidas();
+		}
+
+
+		void comprobarPartidas()
+		{
+			foreach (var partida in partidas)
+			{
+				if ((partida.cantidadFichasAbajo > partida.cantidadFichasArriba && idJugador == partida.jugadorArriba) || (partida.cantidadFichasArriba > partida.cantidadFichasAbajo && idJugador == partida.jugadorAbajo))
+				{
+					partidasGanadas++;
+				}
+			}
 		}
 	}
 }

@@ -52,7 +52,7 @@ namespace DamasNamas.ViewModels
 
 		public EleccionModoJuegoVM()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -61,6 +61,7 @@ namespace DamasNamas.ViewModels
 		private async void ComandoLocal_Execute()
 		{
 
+			String nombreSala = "";
 			clsSala sala = new clsSala(JugadorLoggeado.idJugador);
 			//Recogemos el jugador que se ha loggeado y lo establecemos como jugador de arriba
 			//luego creamos el diccionario que se mandará a la siguiente página y comprobaremos si el segundo jugador quiere loggearse
@@ -68,33 +69,43 @@ namespace DamasNamas.ViewModels
 			var dic = new Dictionary<string, object>();
 			int idAbajo = 0;
 			var respuesta = await Shell.Current.DisplayActionSheet("Desea identificarte?", "Cancel", null, "Log in", "Sign up");
-			if(respuesta.Equals("Cancel"))
+			if (respuesta == null)
+				respuesta = "Cancel";
+			if (respuesta.Equals("Cancel"))
 			{
 				dic.Add("SalaEnviada", sala);
-				await Shell.Current.GoToAsync("///Game",true, dic);
 			}
-			
+
 			//Si decide que quiere loggearse, siempre con total seguridad.
 			//Se le pedirán sus datos de inicio de sesión de la manera más segura que se puede mediante promptasync
-			else if(respuesta.Equals("Log in"))
+			else if (respuesta.Equals("Log in"))
 			{
 				string pass = null;
-				string name = await Shell.Current.DisplayPromptAsync("Identificate", "nombre de usuario","Ok", "Cancel");
+				string name = await Shell.Current.DisplayPromptAsync("Identificate", "nombre de usuario", "Ok", "Cancel");
+				if (name == null)
+					name = "Cancel";
 				if (!name.Equals("Cancel"))
 				{
-				
+
 					pass = await Shell.Current.DisplayPromptAsync("Identificate", ("contraseña"));
+					if (pass == null)
+						pass = "Cancel";
+					if (!pass.Equals("Cancel"))
+					{
+						//Comprobamos que su usuario y contraseña sean correctos
+						var jugadorAbajo = await LoginVM.TestLogin(name, pass);
+						if (jugadorAbajo != null)
+						{
+							sala.jugadorAbajo = jugadorAbajo.idJugador;
+						}
+						//Añadimos la sala que se enviará a la página del juego
+						dic.Add("SalaEnviada", sala);
+					}
+
 				}
-				
-			//Comprobamos que su usuario y contraseña sean correctos
-				var jugadorAbajo = await LoginVM.TestLogin(name, pass);
-				if(jugadorAbajo != null)
-				{
-					sala.jugadorAbajo = jugadorAbajo.idJugador;
-					sala.espacio = 2;
-				}
-				//Añadimos la sala que se enviará a la página del juego
-				dic.Add("SalaEnviada",sala);
+
+
+
 			}
 			//Si el usuario invitado decide crear una cuenta, se le peirá ingresar un nombre y contraseña 
 			//de nuevo, de la forma mas segura que hemos encontrado usando promptAsync y sin recurrir a abrir un nuevo loggin
@@ -104,71 +115,94 @@ namespace DamasNamas.ViewModels
 				var salir = false;
 
 				clsJugador jugadorAbajo = null;
-				string pass = null;
+				string pass = "";
 				string name = await Shell.Current.DisplayPromptAsync("Identificate", "nombre de usuario", "Ok", "Cancel");
-				if(!name.Equals("Cancel"))
+				if (name == null)
+					name = "Cancel";
+				if (!name.Equals("Cancel"))
 				{
-					pass = await Shell.Current.DisplayPromptAsync("Identificate de la forma más segura", ("contraseña"),"Ok","cancel");
-					if(pass != "Cancel") 
+					pass = await Shell.Current.DisplayPromptAsync("Identificate de la forma más segura", ("contraseña"), "Ok", "cancel");
+					if (pass != "Cancel")
 					{
 						jugadorAbajo = await LoginVM.TestSignUp(name, pass);
 					}
-				
-				}
-				
-				
-				if (jugadorAbajo != null)
-				{
-					sala.jugadorAbajo = jugadorAbajo.idJugador;
-					
-				}
-					dic.Add("SalaEnviada", sala);
-
-			}
-			var tieneNombre = false;
-			String nombreSala = "";
-			while (!tieneNombre)
-			{
-				nombreSala = await Shell.Current.DisplayPromptAsync("","Por ultimo, elige un nombre para vuestra sala", "Ok", "Cancel");
-				if (!nombreSala.Equals("Cancel"))
-				{
-					try
+					else
 					{
-						var listaSalas = await clsListadoSalasBL.getSalasBL();
-						foreach(var salaRecogida in listaSalas)
-						{
-							if (salaRecogida.nombreSala.Equals(nombreSala))
-							{
-								nombreSala = "Cancel";
-								break;
-							}
-						}
-						if (!nombreSala.Equals("Cancel"))
-						{
-							tieneNombre = true;
-						}
-
+						return;
 					}
-					catch (Exception e)
-					{
-						await Shell.Current.DisplayAlert("Error", "No se pudo conectar con el servidor", "Ok");
-					}
-					
 
 				}
 				else
 				{
-								await Shell.Current.DisplayAlert("Error", "La sala tiene que tener un nombre", "Ok");
-								break;
-					
+
+					return;
 				}
+
+
+				if (jugadorAbajo != null)
+				{
+					sala.jugadorAbajo = jugadorAbajo.idJugador;
+
+				}
+				dic.Add("SalaEnviada", sala);
+
 			}
-			sala.nombreSala = nombreSala;
-			await Shell.Current.GoToAsync("///Game",true, dic);
+			var tieneNombre = false;
+
+			nombreSala = await comprobarSiTieneNombre();
+			if (!nombreSala.Equals("Cancel"))
+			{
+				sala.espacio = 2;
+				sala.nombreSala = nombreSala;
+				await Shell.Current.GoToAsync("///Game", true, dic);
+			}
 
 		}
 
 
+
+		async Task<String> comprobarSiTieneNombre()
+		{
+			var nombreSala = await Shell.Current.DisplayPromptAsync("", "Por ultimo, elige un nombre para vuestra sala", "Ok", "Cancel");
+			if (nombreSala == null)
+			{
+				nombreSala = "Cancel";
+			}
+			if (!nombreSala.Equals("Cancel"))
+			{
+				if (nombreSala.Equals(""))
+				{
+					nombreSala = "Cancel";
+				}
+				try
+				{
+					var listaSalas = await clsListadoSalasBL.getSalasBL();
+					foreach (var salaRecogida in listaSalas)
+					{
+						if (salaRecogida.nombreSala.Equals(nombreSala))
+						{
+							nombreSala = "Cancel";
+							return nombreSala;
+						}
+					}
+
+				}
+				catch (Exception e)
+				{
+					await Shell.Current.DisplayAlert("Error", "No se pudo conectar con el servidor", "Ok");
+					nombreSala = "Cancel";
+				}
+
+
+			}
+			else
+			{
+				await Shell.Current.DisplayAlert("Error", "La sala tiene que tener un nombre", "Ok");
+				nombreSala = "Cancel";
+
+			}
+			return nombreSala;
+		}
 
 
 		/// <summary>
@@ -177,7 +211,7 @@ namespace DamasNamas.ViewModels
 		private async void ComandoOnline_Execute()
 		{
 			await Shell.Current.DisplayAlert("Lo sentimos", "El modo On-line está inactivo actualmente", "Ok");
-			
+
 		}
 
 

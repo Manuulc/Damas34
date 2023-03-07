@@ -222,7 +222,7 @@ namespace DamasNamas.ViewModels
 			NombreJugadorArriba = jugadorArriba.nombre;
 			if (NombreJugadorAbajo.Equals("Test"))
 			{
-				NombreJugadorAbajo = ("");
+				NombreJugadorAbajo = ("Invitado");
 			}
 
 		}
@@ -843,7 +843,7 @@ namespace DamasNamas.ViewModels
 			}
 			else if (difY < 0 && difX > 0)
 			{
-				huecoAComer = HuecosTablero.Where(x => x.PosX == (HuecoSeleccinado.PosX + 1) && x.PosY == (HuecoSeleccinado.PosY - 1)).First();
+				huecoAComer = HuecosTablero.Where(x => x.PosX == (HuecoSeleccinado.PosX - 1) && x.PosY == (HuecoSeleccinado.PosY + 1)).First();
 			}
 			else if (difY < 0 && difX < 0)
 			{
