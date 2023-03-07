@@ -795,7 +795,7 @@ namespace DamasNamas.ViewModels
                 await Shell.Current.DisplayAlert("", "Hubo un error inesperado", "Ok");
             }
 
-            comprobarGanador();
+            
         }
 
 
@@ -987,7 +987,7 @@ namespace DamasNamas.ViewModels
                     Tablero.PiezasNegras--;
                 if (Estado.Equals(EstadosJuego.TurnoNegras))
                     Tablero.PiezasBlancas--;
-
+                comprobarGanador();
                 haComido = true;
 
 
