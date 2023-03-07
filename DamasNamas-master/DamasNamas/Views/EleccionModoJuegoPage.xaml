@@ -7,16 +7,23 @@
     <ContentPage.BindingContext>
         <vm:EleccionModoJuegoVM/>
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        Spacing="50"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        WidthRequest="100"
+        >
         
         
         
         <Button 
             Command="{Binding ComandoLocal}"
-            Text="Local"/>
+            Text="Local"
+            HeightRequest="100"/>
         <Button
             Text="Online"
-            Command="{Binding ComandoOnline}"/>
+            Command="{Binding ComandoOnline}"
+            HeightRequest="100"/>
         
         
         
