@@ -162,7 +162,6 @@ namespace DamasNamas.ViewModels
 				dic.Add("SalaEnviada", sala);
 
 			}
-			var tieneNombre = false;
 
 			nombreSala = await comprobarSiTieneNombre();
 			if (!nombreSala.Equals("Cancel"))
