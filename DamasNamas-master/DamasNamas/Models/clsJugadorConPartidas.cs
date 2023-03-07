@@ -27,20 +27,22 @@ namespace DamasNamas.Models
 			base.nombre=nombre;
 			base.password=password;
 			partidas=partidasJugadas;
-			partidasGanadas = 0;
-			comprobarPartidas();
+			
+			partidasGanadas = comprobarPartidas();
 		}
 
 
-		void comprobarPartidas()
+		int comprobarPartidas()
 		{
+			var pg = 0;
 			foreach (var partida in partidas)
 			{
-				if ((partida.cantidadFichasAbajo > partida.cantidadFichasArriba && idJugador == partida.jugadorArriba) || (partida.cantidadFichasArriba > partida.cantidadFichasAbajo && idJugador == partida.jugadorAbajo))
+				if ((partida.cantidadFichasAbajo < partida.cantidadFichasArriba && idJugador == partida.jugadorArriba) || (partida.cantidadFichasArriba < partida.cantidadFichasAbajo && idJugador == partida.jugadorAbajo))
 				{
-					partidasGanadas++;
+					pg++;
 				}
 			}
+			return pg;
 		}
 	}
 }

@@ -68,9 +68,9 @@ namespace DamasNamas.ViewModels
 
 		public TablaPuntuacionesVM()
 		{
-
+			JugadoresBuenisimos = new ObservableCollection<clsJugadorConPartidas>();
 			CargarJugadoresBuenisimos();
-			CargarJugadoresVelocistas();
+			//CargarJugadoresVelocistas();
 		}
 
 
@@ -87,12 +87,11 @@ namespace DamasNamas.ViewModels
 			{
 				
 				var listaJugadores = await clsListadoJugadoresBL.getJugadoresBL();
-				listaSalas = await clsListadoSalasBL.getSalasBL();
+				var listaSalas = await clsListadoSalasBL.getSalasBL();
 
 				foreach (var player in listaJugadores)
 				{
 					
-					jugadoresBuenisimos.Add((clsJugadorConPartidas)player);
 					var listaPartidas = new List<clsSala>();
 					for (int i = 0; i<listaSalas.Count(); i++)
 					{
@@ -108,6 +107,8 @@ namespace DamasNamas.ViewModels
 						
 					}
 					var jugador = new clsJugadorConPartidas(player.nombre, player.password, listaPartidas);
+
+					JugadoresBuenisimos.Add(jugador);
 
 				}
 

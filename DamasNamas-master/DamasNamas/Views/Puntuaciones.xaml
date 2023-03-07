@@ -11,17 +11,18 @@
         <Label
             Text="Mejores Jugadores"/>
         <CollectionView
+            SelectionMode="None"
             ItemsSource="{Binding JugadoresBuenisimos}">
+            
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <HorizontalStackLayout>
+                    <HorizontalStackLayout>
                             <Label
                                 Text="{Binding nombre}"/>
                             <Label
                                 Text="{Binding partidasGanadas}"/>
                         </HorizontalStackLayout>
-                    </ViewCell> 
+                    
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
