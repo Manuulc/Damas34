@@ -256,18 +256,12 @@ namespace DamasNamas.ViewModels
 
         }
 
-        public void ChangeTurn()
-        {
-            if (Estado.Equals(EstadosJuego.TurnoBlancas))
-                Estado = EstadosJuego.TurnoNegras;
-            else if (Estado.Equals(EstadosJuego.TurnoNegras))
-                Estado = EstadosJuego.TurnoBlancas;
-        }
-
         IDispatcherTimer timer;
+        
         /// <summary>
         /// Método que se encarga de establecer lo que se hará tras cada tick del Timer.
-        /// 
+        /// Precondiciones: El Timer debe estar iniciado
+        /// Postcondiciones: El Timer seguirá corriendo
         /// 
         /// </summary>
         private async void PutTimer()
@@ -320,6 +314,7 @@ namespace DamasNamas.ViewModels
             }
             RelojMostrado = $"{mins}:{secs}";
         }
+        
         /// <summary>
         /// Método que se encarga de inicializar el temporizador en el hilo principal
         /// </summary>
@@ -331,9 +326,6 @@ namespace DamasNamas.ViewModels
                 PutTimer();
             });
         }
-
-
-
 
         /// <summary>
         /// Método que comprueba si una pieza que ha sido guardada en la lista de posibles

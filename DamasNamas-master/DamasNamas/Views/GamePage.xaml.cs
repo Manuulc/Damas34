@@ -7,4 +7,8 @@ public partial class GamePage : ContentPage
 		InitializeComponent();
  
 	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+    }
 }
