@@ -51,7 +51,6 @@
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Starjedi.ttf" />
 	  <None Remove="Resources\Fonts\Starjout.ttf" />
-	  <None Remove="Resources\Images\ctripio.png" />
 	  <None Remove="Resources\Images\destructor.png" />
 	  <None Remove="Resources\Images\fondoestrellas.jpg" />
 	  <None Remove="Resources\Images\fondologin.jpg" />
@@ -59,18 +58,19 @@
 	  <None Remove="Resources\Images\halcon.png" />
 	  <None Remove="Resources\Images\key.png" />
 	  <None Remove="Resources\Images\lightynone.png" />
-	  <None Remove="Resources\Images\luke.png" />
 	  <None Remove="Resources\Images\mandaloriano.png" />
 	  <None Remove="Resources\Images\piezablanca.png" />
+	  <None Remove="Resources\Images\piezablanca2.png" />
 	  <None Remove="Resources\Images\piezanegra.png" />
+	  <None Remove="Resources\Images\piezanegra2.png" />
 	  <None Remove="Resources\Images\principal.png" />
 	  <None Remove="Resources\Images\reinablanca.png" />
+	  <None Remove="Resources\Images\reinablanca2.png" />
 	  <None Remove="Resources\Images\reinanegra.png" />
+	  <None Remove="Resources\Images\reinanegra2.png" />
 	  <None Remove="Resources\Images\selected.png" />
 	  <None Remove="Resources\Images\shadynone.png" />
-	  <None Remove="Resources\Images\soldado.png" />
 	  <None Remove="Resources\Images\usuario.png" />
-	  <None Remove="Resources\Images\vader.png" />
 	</ItemGroup>
 
 	<ItemGroup>
