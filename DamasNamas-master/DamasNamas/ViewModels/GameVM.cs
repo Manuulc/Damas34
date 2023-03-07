@@ -27,8 +27,9 @@ namespace DamasNamas.ViewModels
 		clsJugador jugadorAbajo;
 		Square huecoSeleccionado;
 		private ObservableCollection<Square> huecosTablero;
-
-		EstadosJuego estado;
+        Color colorTurnoArriba;
+        Color colorTurnoAbajo;
+        EstadosJuego estado;
 		String relojMostrado;
 		TimeSpan reloj;
 
@@ -90,6 +91,114 @@ namespace DamasNamas.ViewModels
 
 			}
 		}
+        public Color ColorTurnoArriba
+        {
+            get
+            {
+                return colorTurnoArriba;
+            }
+            set
+            {
+                colorTurnoArriba = value;
+                OnPropertyChanged(nameof(ColorTurnoArriba));
+            }
+        }
+
+        public String RelojMostrado
+        {
+            get
+            {
+                return relojMostrado;
+            }
+            set
+            {
+                relojMostrado = value;
+                OnPropertyChanged(nameof(RelojMostrado));
+            }
+        }
+
+
+
+        public Color ColorTurnoAbajo
+        {
+            get
+            {
+                return colorTurnoAbajo;
+            }
+            set
+            {
+                colorTurnoAbajo = value;
+                OnPropertyChanged(nameof(ColorTurnoAbajo));
+            }
+        }
+
+        public clsGameTablero Tablero
+        {
+            get
+            {
+                return tablero;
+            }
+            set
+            {
+                tablero = value;
+                OnPropertyChanged("Tablero");
+            }
+        }
+
+
+
+        public clsJugador JugadorArriba
+        {
+            get
+            {
+                return jugadorArriba;
+            }
+            set
+            {
+                jugadorArriba = value;
+                OnPropertyChanged("JugadorArriba");
+            }
+        }
+
+
+
+        public Square HuecoSeleccinado
+        {
+            get
+            {
+                return huecoSeleccionado;
+            }
+            set
+            {
+                huecoSeleccionado = value;
+                GetPosiblePosicion();
+                OnPropertyChanged("HuecoSeleccionado");
+                OnPropertyChanged(nameof(HuecosTablero));
+            }
+        }
+
+        public clsJugador JugadorAbajo
+        {
+            get { return jugadorAbajo; }
+            set
+            {
+                jugadorAbajo = value;
+                OnPropertyChanged(nameof(JugadorAbajo));
+            }
+        }
+
+        public EstadosJuego Estado
+        {
+            get { return estado; }
+            set { estado = value; OnPropertyChanged(nameof(Estado)); }
+        }
+        public TimeSpan Reloj
+        {
+            get { return reloj; }
+            set { reloj = value; OnPropertyChanged(nameof(Reloj)); }
+        }
+
+
 
         #endregion
 
@@ -117,123 +226,6 @@ namespace DamasNamas.ViewModels
 			}
 
 		}
-
-
-		#region Properties
-
-		public Color ColorTurnoArriba
-		{
-			get
-			{
-				return colorTurnoArriba;
-			}
-			set
-			{
-				colorTurnoArriba = value;
-				OnPropertyChanged(nameof(ColorTurnoArriba));
-			}
-		}
-
-		public String RelojMostrado
-		{
-			get
-			{
-				return relojMostrado;
-			}
-			set
-			{
-				relojMostrado = value;
-				OnPropertyChanged(nameof(RelojMostrado));
-			}
-		}
-
-
-
-		public Color ColorTurnoAbajo
-		{
-			get
-			{
-				return colorTurnoAbajo;
-			}
-			set
-			{
-				colorTurnoAbajo = value;
-				OnPropertyChanged(nameof(ColorTurnoAbajo));
-			}
-		}
-		Color colorTurnoArriba;
-
-		Color colorTurnoAbajo;
-		public clsGameTablero Tablero
-		{
-			get
-			{
-				return tablero;
-			}
-			set
-			{
-				tablero = value;
-				OnPropertyChanged("Tablero");
-			}
-		}
-
-
-
-		public clsJugador JugadorArriba
-		{
-			get
-			{
-				return jugadorArriba;
-			}
-			set
-			{
-				jugadorArriba = value;
-				OnPropertyChanged("JugadorArriba");
-			}
-		}
-
-
-
-		public Square HuecoSeleccinado
-		{
-			get
-			{
-				return huecoSeleccionado;
-			}
-			set
-			{
-				huecoSeleccionado = value;
-				GetPosiblePosicion();
-				OnPropertyChanged("HuecoSeleccionado");
-				OnPropertyChanged(nameof(HuecosTablero));
-			}
-		}
-
-		public clsJugador JugadorAbajo
-		{
-			get { return jugadorAbajo; }
-			set
-			{
-				jugadorAbajo = value;
-				OnPropertyChanged(nameof(JugadorAbajo));
-			}
-		}
-
-		public EstadosJuego Estado
-		{
-			get { return estado; }
-			set { estado = value; OnPropertyChanged(nameof(Estado)); }
-		}
-		public TimeSpan Reloj
-		{
-			get { return reloj; }
-			set { reloj = value; OnPropertyChanged(nameof(Reloj)); }
-		}
-
-
-
-
-		#endregion
 
 
 		public GameVM()
@@ -766,7 +758,7 @@ namespace DamasNamas.ViewModels
 
 
 		/// <summary>
-		/// 
+		/// Método que comprueba el 
 		/// </summary>
 		private async void MovePieza()
 		{
@@ -982,14 +974,13 @@ namespace DamasNamas.ViewModels
 				}
 				if (huecomido == null)
 				{
-					return haComido;
+					return haComido = false;
 				}
 				else if (huecomido.TipoPieza.Equals(ColorPieza.None))
 				{
 
-					return haComido;
+					return haComido = false;
 				}
-
 				huecomido.Pieza = "lightynone";
 				huecomido.EsReina = false;
 				if (Estado.Equals(EstadosJuego.TurnoBlancas))

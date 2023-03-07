@@ -7,7 +7,8 @@
     <ContentPage.BindingContext>
         <vm:EleccionModoJuegoVM/>
     </ContentPage.BindingContext>
-    <VerticalStackLayout>
+    <VerticalStackLayout
+Spacing="20">
         
         
         
