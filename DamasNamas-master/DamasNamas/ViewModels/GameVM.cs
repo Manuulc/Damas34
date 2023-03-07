@@ -665,15 +665,15 @@ namespace DamasNamas.ViewModels
         /// </summary>
         private void SetTurno()
         {
+            
             if (Tablero.PiezasBlancas == 0)
             {
                 Estado = EstadosJuego.NegroGana;
-                comprobarGanador();
+                
             }
             else if (Tablero.PiezasNegras == 0)
             {
                 Estado = EstadosJuego.BlancoGana;
-                comprobarGanador();
             }
             else if (Estado.Equals(EstadosJuego.TurnoBlancas))
             {
@@ -777,6 +777,7 @@ namespace DamasNamas.ViewModels
                 if (!Comer() || (ListaPosiblesHuecos.Count == 0))
                 {
                     SetTurno();
+                    
                 }
 
                 //Busco el hueco seleccionado entre la lista de posibles movimientos y, solo si existe
@@ -793,6 +794,8 @@ namespace DamasNamas.ViewModels
             {
                 await Shell.Current.DisplayAlert("", "Hubo un error inesperado", "Ok");
             }
+
+            comprobarGanador();
         }
 
 
