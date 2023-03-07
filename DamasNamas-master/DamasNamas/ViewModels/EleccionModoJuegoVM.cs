@@ -98,6 +98,10 @@ namespace DamasNamas.ViewModels
 						{
 							sala.jugadorAbajo = jugadorAbajo.idJugador;
 						}
+						else
+						{
+							return;
+						}
 						//Añadimos la sala que se enviará a la página del juego
 						dic.Add("SalaEnviada", sala);
 					}
@@ -122,7 +126,7 @@ namespace DamasNamas.ViewModels
 				if (!name.Equals("Cancel"))
 				{
 					pass = await Shell.Current.DisplayPromptAsync("Identificate de la forma más segura", ("contraseña"), "Ok", "cancel");
-					if (pass != "Cancel")
+					if (!pass.Equals("Cancel"))
 					{
 						jugadorAbajo = await LoginVM.TestSignUp(name, pass);
 					}

@@ -32,9 +32,9 @@
                 ContentTemplate="{DataTemplate local:EleccionModoJuegoPage}"/>
         </Tab>
         <Tab Title="Puntuaciones" Icon="usuario">
-            <!--<ShellContent
+            <ShellContent
                 Route="TipoJuego"
-                ContentTemplate="{DataTemplate local:EleccionModoJuegoPage}"/>-->
+                ContentTemplate="{DataTemplate local:Puntuaciones}"/>
         </Tab>
         
       
