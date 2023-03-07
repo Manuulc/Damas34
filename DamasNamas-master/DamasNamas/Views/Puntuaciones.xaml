@@ -8,6 +8,8 @@
         <vm:TablaPuntuacionesVM/>
     </ContentPage.BindingContext>
     <VerticalStackLayout>
+        <Label
+            Text="Mejores Jugadores"/>
         <CollectionView
             ItemsSource="{Binding JugadoresBuenisimos}">
             <CollectionView.ItemTemplate>
@@ -16,7 +18,8 @@
                         <HorizontalStackLayout>
                             <Label
                                 Text="{Binding nombre}"/>
-                            
+                            <Label
+                                Text="{Binding partidasGanadas}"/>
                         </HorizontalStackLayout>
                     </ViewCell> 
                 </DataTemplate>
