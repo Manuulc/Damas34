@@ -768,7 +768,8 @@ namespace DamasNamas.ViewModels
 				TransformarReina();
 
 				//Comerpieza
-				if (!Comer() || (Comer() && ListaPosiblesHuecos.Count == 0))
+				var hacomido = Comer();
+				if (!hacomido || (hacomido && ListaPosiblesHuecos.Count == 0))
 				{
 					if (Tablero.PiezasBlancas == 0 || (ListaPosiblesHuecos.Count() == 0 && (Tablero.PiezasBlancas == 1)))
 					{
